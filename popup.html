@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      width: 320px;
+      background: #0D0D0D;
+      color: #E0E0E0;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      padding: 15px;
+      border: 2px solid #FFD700;
+    }
+    h2 { color: #FFD700; text-transform: uppercase; letter-spacing: 2px; margin-top: 0; }
+    .section { border-top: 1px solid #333; padding-top: 10px; margin-top: 15px; }
+    
+    /* Timer Styles */
+    #timer-display { font-size: 40px; text-align: center; color: #FFD700; font-weight: bold; }
+    .controls { display: flex; justify-content: center; gap: 10px; margin: 10px 0; }
+    button { background: #FFD700; border: none; padding: 5px 15px; cursor: pointer; font-weight: bold; }
+    
+    /* Planner Styles */
+    input, select { background: #1A1A1A; border: 1px solid #444; color: white; padding: 5px; width: 60%; }
+    #task-list { list-style: none; padding: 0; }
+    .task-item { display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #222; }
+    .high { color: #FF4444; } /* Priority: High */
+    .med { color: #FFAA00; }  /* Priority: Med */
+    .low { color: #00AAFF; }  /* Priority: Low */
+  </style>
+</head>
+<body>
+  <h2>Bat Command</h2>
+  <div id="timer-display">25:00</div>
+  <div class="controls">
+    <button id="start">START MISSION</button>
+    <button id="reset" style="background:#444; color:white">RESET</button>
+  </div>
+
+  <div class="section">
+    <h3>Mission Planner</h3>
+    <div style="display:flex; gap:5px;">
+      <input type="text" id="task-input" placeholder="New objective...">
+      <select id="priority">
+        <option value="low">LOW</option>
+        <option value="med">MED</option>
+        <option value="high">HIGH</option>
+      </select>
+      <button id="add-task">+</button>
+    </div>
+    <ul id="task-list"></ul>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
