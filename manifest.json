@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "bat-tasks",
+  "version": "1.0",
+  "description": "Tactical mission timer and planner for the Dark Knight.",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": ["storage"]
+}
