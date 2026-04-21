@@ -69,6 +69,35 @@
   </style>
 </head>
 <body>
+  
+  <div class="user-greeting">
+  <span class="pulse">●</span> AUTHENTICATED: SHEILA // DEV_ACCESS_01
+</div>
+
+<style>
+  .user-greeting {
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    color: var(--bat-yellow);
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+    padding: 5px;
+    border-left: 2px solid var(--bat-yellow);
+    background: rgba(255, 215, 0, 0.05);
+    text-transform: uppercase;
+  }
+  
+  .pulse {
+    animation: blink 1.5s infinite;
+    margin-right: 5px;
+  }
+
+  @keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.2; }
+    100% { opacity: 1; }
+  }
+</style>
   <div class="header">
     <svg class="bat-logo" viewBox="0 0 24 24" fill="currentColor"><path d="M12,2C12,2 11,3 9,3C7,3 5.5,2 5.5,2C5.5,2 5.5,4 4,5C2.5,6 0,6 0,6C0,6 2,8 3,10C4,12 4,14 4,14C4,14 5.5,13 8,13C10.5,13 12,14.5 12,14.5C12,14.5 13.5,13 16,13C18.5,13 20,14 20,14C20,14 20,12 21,10C22,8 24,6 24,6C24,6 21.5,6 20,5C18.5,4 18.5,2 18.5,2C18.5,2 17,3 15,3C13,3 12,2 12,2Z"/></svg>
   </div>
