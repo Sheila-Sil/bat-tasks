@@ -1,53 +1,100 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    body {
-      width: 320px;
-      background: #0D0D0D;
-      color: #E0E0E0;
-      font-family: 'Segoe UI', Tahoma, sans-serif;
-      padding: 15px;
-      border: 2px solid #FFD700;
+    :root {
+      --bat-yellow: #FFD700;
+      --bat-black: #0A0A0A;
+      --bat-gray: #1C1C1C;
+      --text-dim: #A0A0A0;
+      --high-red: #FF4444;
     }
-    h2 { color: #FFD700; text-transform: uppercase; letter-spacing: 2px; margin-top: 0; }
-    .section { border-top: 1px solid #333; padding-top: 10px; margin-top: 15px; }
+    body {
+      width: 350px;
+      background: var(--bat-black);
+      color: white;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 20px;
+      border: 1px solid #333;
+    }
+    .header { text-align: center; margin-bottom: 20px; }
+    .bat-logo { width: 50px; filter: drop-shadow(0 0 5px var(--bat-yellow)); }
     
-    /* Timer Styles */
-    #timer-display { font-size: 40px; text-align: center; color: #FFD700; font-weight: bold; }
-    .controls { display: flex; justify-content: center; gap: 10px; margin: 10px 0; }
-    button { background: #FFD700; border: none; padding: 5px 15px; cursor: pointer; font-weight: bold; }
-    
-    /* Planner Styles */
-    input, select { background: #1A1A1A; border: 1px solid #444; color: white; padding: 5px; width: 60%; }
+    /* Timer Section */
+    .timer-container { text-align: center; padding-bottom: 20px; border-bottom: 1px solid #222; }
+    #timer-display { font-family: 'Orbitron', sans-serif; font-size: 48px; color: var(--bat-yellow); margin: 10px 0; }
+    .timer-setup { margin-bottom: 15px; display: flex; justify-content: center; gap: 5px; }
+    .timer-setup input { 
+        background: transparent; border: 1px solid #444; color: white; 
+        width: 40px; padding: 5px; text-align: center; border-radius: 4px;
+    }
+    .btn-main { 
+        background: var(--bat-yellow); border: none; color: black; 
+        padding: 8px 20px; font-weight: bold; cursor: pointer; border-radius: 2px;
+        text-transform: uppercase; transition: 0.3s;
+    }
+    .btn-main:hover { opacity: 0.8; box-shadow: 0 0 10px var(--bat-yellow); }
+
+    /* Planner Section (Tweek Style) */
+    .planner-section { margin-top: 20px; }
+    .mission-input-group { background: var(--bat-gray); padding: 10px; border-radius: 8px; margin-bottom: 15px; }
+    #task-input { 
+        background: transparent; border: none; color: white; width: 100%; 
+        padding: 8px 0; font-size: 14px; outline: none; border-bottom: 1px solid #333;
+    }
+    .priority-buttons { display: flex; gap: 5px; margin-top: 10px; }
+    .p-btn { 
+        flex: 1; padding: 4px; font-size: 10px; background: #252525; border: 1px solid #333; 
+        color: var(--text-dim); cursor: pointer; text-transform: uppercase;
+    }
+    .p-btn.active[data-p="low"] { border-color: #00AAFF; color: #00AAFF; }
+    .p-btn.active[data-p="med"] { border-color: var(--bat-yellow); color: var(--bat-yellow); }
+    .p-btn.active[data-p="high"] { border-color: var(--high-red); color: var(--high-red); }
+
+    /* List Items */
     #task-list { list-style: none; padding: 0; }
-    .task-item { display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #222; }
-    .high { color: #FF4444; } /* Priority: High */
-    .med { color: #FFAA00; }  /* Priority: Med */
-    .low { color: #00AAFF; }  /* Priority: Low */
+    .task-item { 
+        background: #151515; padding: 12px; margin-bottom: 8px; border-radius: 4px;
+        display: flex; align-items: center; justify-content: space-between;
+        border-left: 3px solid #333; transition: 0.2s;
+    }
+    .task-item.high { border-left-color: var(--high-red); }
+    .task-item.med { border-left-color: var(--bat-yellow); }
+    .task-item.low { border-left-color: #00AAFF; }
+    .task-item span { font-size: 13px; }
+    .delete-btn { color: #444; cursor: pointer; font-size: 16px; }
+    .delete-btn:hover { color: var(--high-red); }
   </style>
 </head>
 <body>
-  <h2>Bat Command</h2>
-  <div id="timer-display">25:00</div>
-  <div class="controls">
-    <button id="start">START MISSION</button>
-    <button id="reset" style="background:#444; color:white">RESET</button>
+  <div class="header">
+    <svg class="bat-logo" viewBox="0 0 24 24" fill="currentColor"><path d="M12,2C12,2 11,3 9,3C7,3 5.5,2 5.5,2C5.5,2 5.5,4 4,5C2.5,6 0,6 0,6C0,6 2,8 3,10C4,12 4,14 4,14C4,14 5.5,13 8,13C10.5,13 12,14.5 12,14.5C12,14.5 13.5,13 16,13C18.5,13 20,14 20,14C20,14 20,12 21,10C22,8 24,6 24,6C24,6 21.5,6 20,5C18.5,4 18.5,2 18.5,2C18.5,2 17,3 15,3C13,3 12,2 12,2Z"/></svg>
   </div>
 
-  <div class="section">
-    <h3>Mission Planner</h3>
-    <div style="display:flex; gap:5px;">
-      <input type="text" id="task-input" placeholder="New objective...">
-      <select id="priority">
-        <option value="low">LOW</option>
-        <option value="med">MED</option>
-        <option value="high">HIGH</option>
-      </select>
-      <button id="add-task">+</button>
+  <div class="timer-container">
+    <div class="timer-setup">
+      <input type="number" id="setup-mins" value="25" min="1" max="99">
+      <span style="color:var(--text-dim)">MINS</span>
+    </div>
+    <div id="timer-display">25:00</div>
+    <button class="btn-main" id="timer-toggle">Start Patrol</button>
+  </div>
+
+  <div class="planner-section">
+    <div class="mission-input-group">
+      <input type="text" id="task-input" placeholder="New mission objective...">
+      <div class="priority-buttons">
+        <button class="p-btn" data-p="low">Low</button>
+        <button class="p-btn active" data-p="med">Med</button>
+        <button class="p-btn" data-p="high">High</button>
+      </div>
+      <button class="btn-main" id="add-task" style="width:100%; margin-top:10px; padding:5px;">Add Mission</button>
     </div>
     <ul id="task-list"></ul>
   </div>
+
   <script src="popup.js"></script>
 </body>
 </html>
