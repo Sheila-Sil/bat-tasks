@@ -5,11 +5,12 @@
   <style>
     :root {
       --bat-yellow: #FFD700;
-      --bat-black: #0A0A0A;
-      --bat-gray: #1C1C1C;
-      --text-dim: #A0A0A0;
+      --bat-black: #0D0D0D;
+      --bat-gray: #1A1A1A;
+      --text-dim: #777;
       --high-red: #FF4444;
     }
+
     body {
       width: 350px;
       background: var(--bat-black);
@@ -17,113 +18,116 @@
       font-family: 'Inter', sans-serif;
       margin: 0;
       padding: 20px;
-      border: 1px solid #333;
     }
-    .header { text-align: center; margin-bottom: 20px; }
-    .bat-logo { width: 50px; filter: drop-shadow(0 0 5px var(--bat-yellow)); }
-    
-    /* Timer Section */
-    .timer-container { text-align: center; padding-bottom: 20px; border-bottom: 1px solid #222; }
-    #timer-display { font-family: 'Orbitron', sans-serif; font-size: 48px; color: var(--bat-yellow); margin: 10px 0; }
-    .timer-setup { margin-bottom: 15px; display: flex; justify-content: center; gap: 5px; }
-    .timer-setup input { 
-        background: transparent; border: 1px solid #444; color: white; 
-        width: 40px; padding: 5px; text-align: center; border-radius: 4px;
-    }
-    .btn-main { 
-        background: var(--bat-yellow); border: none; color: black; 
-        padding: 8px 20px; font-weight: bold; cursor: pointer; border-radius: 2px;
-        text-transform: uppercase; transition: 0.3s;
-    }
-    .btn-main:hover { opacity: 0.8; box-shadow: 0 0 10px var(--bat-yellow); }
 
-    /* Planner Section (Tweek Style) */
-    .planner-section { margin-top: 20px; }
-    .mission-input-group { background: var(--bat-gray); padding: 10px; border-radius: 8px; margin-bottom: 15px; }
-    #task-input { 
-        background: transparent; border: none; color: white; width: 100%; 
-        padding: 8px 0; font-size: 14px; outline: none; border-bottom: 1px solid #333;
+    /* Tech Greeting */
+    .user-greeting {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      color: var(--bat-yellow);
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+      padding: 5px;
+      border-left: 2px solid var(--bat-yellow);
+      background: rgba(255, 215, 0, 0.03);
     }
-    .priority-buttons { display: flex; gap: 5px; margin-top: 10px; }
-    .p-btn { 
-        flex: 1; padding: 4px; font-size: 10px; background: #252525; border: 1px solid #333; 
-        color: var(--text-dim); cursor: pointer; text-transform: uppercase;
+
+    .header { text-align: center; margin-bottom: 25px; }
+    
+    /* Accurate Batman Logo */
+    .bat-logo { width: 80px; fill: var(--bat-yellow); filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.4)); }
+
+    /* Modern Dial Timer */
+    .timer-container { text-align: center; position: relative; margin-bottom: 30px; }
+    
+    .dial-wrapper {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+
+    #timer-display {
+      position: absolute;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 32px;
+      color: var(--bat-yellow);
+      z-index: 2;
+    }
+
+    /* Range slider styled as a minimalist bar under the numbers */
+    #time-slider {
+      width: 140px;
+      accent-color: var(--bat-yellow);
+      margin-top: 80px;
+      cursor: pointer;
+    }
+
+    .btn-main {
+      background: var(--bat-yellow);
+      border: none;
+      color: black;
+      width: 100%;
+      padding: 12px;
+      font-weight: 800;
+      font-family: 'Orbitron', sans-serif;
+      border-radius: 4px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+      margin-top: 15px;
+    }
+
+    .btn-main:hover { transform: scale(1.02); box-shadow: 0 0 15px var(--bat-yellow); }
+
+    /* Tweek-style Planner */
+    .planner-section { margin-top: 25px; border-top: 1px solid #222; padding-top: 20px; }
+    
+    .mission-box {
+      background: var(--bat-gray);
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    #task-input {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #333;
+      color: white;
+      width: 100%;
+      padding: 10px 0;
+      margin-bottom: 12px;
+      outline: none;
+    }
+
+    .priority-row { display: flex; gap: 8px; margin-bottom: 15px; }
+    
+    .p-btn {
+      flex: 1;
+      padding: 6px;
+      background: #222;
+      border: 1px solid #333;
+      color: var(--text-dim);
+      font-size: 10px;
+      text-transform: uppercase;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
     .p-btn.active[data-p="low"] { border-color: #00AAFF; color: #00AAFF; }
     .p-btn.active[data-p="med"] { border-color: var(--bat-yellow); color: var(--bat-yellow); }
     .p-btn.active[data-p="high"] { border-color: var(--high-red); color: var(--high-red); }
 
-    /* List Items */
-    #task-list { list-style: none; padding: 0; }
-    .task-item { 
-        background: #151515; padding: 12px; margin-bottom: 8px; border-radius: 4px;
-        display: flex; align-items: center; justify-content: space-between;
-        border-left: 3px solid #333; transition: 0.2s;
-    }
-    .task-item.high { border-left-color: var(--high-red); }
-    .task-item.med { border-left-color: var(--bat-yellow); }
-    .task-item.low { border-left-color: #00AAFF; }
-    .task-item span { font-size: 13px; }
-    .delete-btn { color: #444; cursor: pointer; font-size: 16px; }
-    .delete-btn:hover { color: var(--high-red); }
-  </style>
-</head>
-<body>
-  
-  <div class="user-greeting">
-  <span class="pulse">●</span> AUTHENTICATED: SHEILA // DEV_ACCESS_01
-</div>
-
-<style>
-  .user-greeting {
-    font-family: 'Orbitron', monospace;
-    font-size: 10px;
-    color: var(--bat-yellow);
-    letter-spacing: 1.5px;
-    margin-bottom: 20px;
-    padding: 5px;
-    border-left: 2px solid var(--bat-yellow);
-    background: rgba(255, 215, 0, 0.05);
-    text-transform: uppercase;
-  }
-  
-  .pulse {
-    animation: blink 1.5s infinite;
-    margin-right: 5px;
-  }
-
-  @keyframes blink {
-    0% { opacity: 1; }
-    50% { opacity: 0.2; }
-    100% { opacity: 1; }
-  }
-</style>
-  <div class="header">
-    <svg class="bat-logo" viewBox="0 0 24 24" fill="currentColor"><path d="M12,2C12,2 11,3 9,3C7,3 5.5,2 5.5,2C5.5,2 5.5,4 4,5C2.5,6 0,6 0,6C0,6 2,8 3,10C4,12 4,14 4,14C4,14 5.5,13 8,13C10.5,13 12,14.5 12,14.5C12,14.5 13.5,13 16,13C18.5,13 20,14 20,14C20,14 20,12 21,10C22,8 24,6 24,6C24,6 21.5,6 20,5C18.5,4 18.5,2 18.5,2C18.5,2 17,3 15,3C13,3 12,2 12,2Z"/></svg>
-  </div>
-
-  <div class="timer-container">
-    <div class="timer-setup">
-      <input type="number" id="setup-mins" value="25" min="1" max="99">
-      <span style="color:var(--text-dim)">MINS</span>
-    </div>
-    <div id="timer-display">25:00</div>
-    <button class="btn-main" id="timer-toggle">Start Patrol</button>
-  </div>
-
-  <div class="planner-section">
-    <div class="mission-input-group">
-      <input type="text" id="task-input" placeholder="New mission objective...">
-      <div class="priority-buttons">
-        <button class="p-btn" data-p="low">Low</button>
-        <button class="p-btn active" data-p="med">Med</button>
-        <button class="p-btn" data-p="high">High</button>
-      </div>
-      <button class="btn-main" id="add-task" style="width:100%; margin-top:10px; padding:5px;">Add Mission</button>
-    </div>
-    <ul id="task-list"></ul>
-  </div>
-
-  <script src="popup.js"></script>
-</body>
-</html>
+    #task-list { list-style: none; padding: 0; margin-top: 20px; }
+    
+    .task-item {
+      background: #151515;
+      padding: 14px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space
