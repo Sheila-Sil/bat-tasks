@@ -7,53 +7,78 @@
       --bat-yellow: #E2B007;
       --bat-black: #0F0F11;
       --bat-gray: #1C1C1E;
-      --high: #FF453A;
-      --med: #FF9F0A;
-      --low: #0A84FF;
+      --high: #FF453A; --med: #FF9F0A; --low: #0A84FF;
     }
     body {
       width: 350px; background: var(--bat-black); color: white;
       font-family: 'Inter', sans-serif; margin: 0; padding: 20px;
+      overflow-x: hidden;
     }
     .greeting {
       font-family: 'Orbitron'; font-size: 8px; color: var(--bat-yellow);
       letter-spacing: 2px; border-left: 2px solid var(--bat-yellow);
-      padding-left: 8px; margin-bottom: 20px;
+      padding: 5px 0 5px 10px; margin-bottom: 20px; background: rgba(226, 176, 7, 0.05);
     }
     .header { text-align: center; margin-bottom: 20px; }
     .bat-logo { width: 80px; fill: var(--bat-yellow); }
 
-    .timer-card { background: var(--bat-gray); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; }
-    #timer-display { font-family: 'Orbitron'; font-size: 42px; color: white; margin-bottom: 10px; }
-    input[type=range] { width: 80%; accent-color: var(--bat-yellow); cursor: pointer; }
+    .timer-card { background: var(--bat-gray); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; border: 1px solid #333; }
+    #timer-display { font-family: 'Orbitron'; font-size: 44px; color: white; margin-bottom: 10px; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+    input[type=range] { width: 100%; accent-color: var(--bat-yellow); cursor: pointer; margin: 10px 0; }
     
     .btn-action {
-      background: var(--bat-yellow); border: none; width: 100%; padding: 12px;
-      font-family: 'Orbitron'; font-weight: bold; border-radius: 6px; margin-top: 15px; cursor: pointer;
+      background: var(--bat-yellow); border: none; width: 100%; padding: 14px;
+      font-family: 'Orbitron'; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.2s;
     }
+    .btn-action:hover { filter: brightness(1.2); }
 
-    .planner-card { background: var(--bat-gray); border-radius: 12px; padding: 15px; }
+    .planner-card { background: var(--bat-gray); border-radius: 12px; padding: 15px; border: 1px solid #333; }
     #task-input {
-      background: #2C2C2E; border: none; color: white;
-      width: 100%; padding: 10px; border-radius: 6px; box-sizing: border-box; outline: none;
+      background: #2C2C2E; border: 1px solid #3A3A3C; color: white;
+      width: 100%; padding: 12px; border-radius: 6px; box-sizing: border-box; outline: none; margin-bottom: 10px;
     }
-    .p-row { display: flex; gap: 5px; margin: 10px 0; }
+    .p-row { display: flex; gap: 5px; margin-bottom: 15px; }
     .p-btn {
-      flex: 1; padding: 5px; background: #2C2C2E; border: 1px solid #3A3A3C;
-      color: #8E8E93; font-size: 9px; border-radius: 4px; cursor: pointer;
+      flex: 1; padding: 6px; background: #2C2C2E; border: 1px solid #3A3A3C;
+      color: #8E8E93; font-size: 10px; border-radius: 4px; cursor: pointer;
     }
-    .p-btn.active { border-color: var(--bat-yellow); color: var(--bat-yellow); }
+    .p-btn.active { border-color: var(--bat-yellow); color: var(--bat-yellow); background: rgba(226, 176, 7, 0.1); }
     
-    #task-list { padding: 0; list-style: none; margin-top: 15px; }
+    #task-list { padding: 0; list-style: none; margin: 0; }
     .task-item {
-      background: #2C2C2E; padding: 10px; border-radius: 6px; margin-bottom: 8px;
-      display: flex; justify-content: space-between; align-items: center; font-size: 13px;
+      background: #252527; padding: 12px; border-radius: 6px; margin-top: 10px;
+      display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #444;
     }
-    .high { border-left: 4px solid var(--high); }
-    .med { border-left: 4px solid var(--med); }
-    .low { border-left: 4px solid var(--low); }
+    .task-item.high { border-left-color: var(--high); }
+    .task-item.med { border-left-color: var(--med); }
+    .task-item.low { border-left-color: var(--low); }
   </style>
 </head>
 <body>
   <div class="greeting">AUTHENTICATED: SHEILA // DEV_ACCESS_01</div>
+  
   <div class="header">
+    <svg class="bat-logo" viewBox="0 0 24 24">
+      <path d="M12 6s-1-2-4-2-4 2-5 3c0 0 1 1 1 4 0 3 2 5 5 5 1 0 2-1 3-2 1 1 2 2 3 2 3 0 5-2 5-5 0-3 1-4 1-4-1-1-2-3-5-3s-4 2-4 2z"/>
+    </svg>
+  </div>
+
+  <div class="timer-card">
+    <div id="timer-display">25:00</div>
+    <input type="range" id="time-dial" min="1" max="60" value="25">
+    <button class="btn-action" id="timer-btn">START MISSION</button>
+  </div>
+
+  <div class="planner-card">
+    <input type="text" id="task-input" placeholder="New objective..." autocomplete="off">
+    <div class="p-row">
+      <button class="p-btn" data-p="low">LOW</button>
+      <button class="p-btn active" data-p="med">MED</button>
+      <button class="p-btn" data-p="high">HIGH</button>
+    </div>
+    <ul id="task-list"></ul>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
