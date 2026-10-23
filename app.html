@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nightwatch</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-bat" viewBox="0 0 100 44"><path fill="currentColor" d="M50 13.5 L52.3 13.5 L54.3 4 L56.2 15 Q61 16.5 67 12.5 Q80 4.5 99 2.5 Q91 9 90.5 18.5 Q85.5 17 79.5 22.5 Q74.5 21.5 67.5 28 Q60.5 28 55 34 Q52 36 50 42.5 Q48 36 45 34 Q39.5 28 32.5 28 Q25.5 21.5 20.5 22.5 Q14.5 17 9.5 18.5 Q9 9 1 2.5 Q20 4.5 33 12.5 Q39 16.5 43.8 15 L45.7 4 L47.7 13.5 Z"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M8.5 5.8v12.4c0 .6.7 1 1.2.7l9.6-6.2c.5-.3.5-1 0-1.3L9.7 5.1c-.5-.3-1.2 0-1.2.7z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><rect fill="currentColor" x="7" y="5.5" width="3.2" height="13" rx="1"/><rect fill="currentColor" x="13.8" y="5.5" width="3.2" height="13" rx="1"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v3.7h3.7"/></symbol>
+    <symbol id="i-skip" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" d="M6.5 6.5l8 5.5-8 5.5zM17.5 6.5v11"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M12 6v12M6 12h12"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M7 7l10 10M17 7L7 17"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" d="M12 4.2l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4L4.2 9.9l5.4-.8z"/></symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M14 5h5v5M10 19H5v-5M19 5l-6 6M5 19l6-6"/></symbol>
+    <symbol id="i-tune" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M4 8h9M17 8h3M4 16h3M11 16h9"/><circle cx="15" cy="8" r="2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="16" r="2" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6.5 12.5l3.5 3.5 7.5-8"/></symbol>
+  </svg>
+
+  <canvas id="scene" class="layer"></canvas>
+  <canvas id="rain" class="layer"></canvas>
+  <div class="scrim layer"></div>
+
+  <div class="app">
+    <header class="top">
+      <div class="brand">
+        <svg class="bat"><use href="#i-bat"/></svg>
+        <span class="wordmark">Nightwatch</span>
+      </div>
+      <nav class="nav" id="nav">
+        <button data-view="tasks">Tasks</button>
+        <button data-view="timer" id="nav-timer">Timer</button>
+        <button data-view="notes">Notes</button>
+        <button data-view="stats">Stats</button>
+      </nav>
+      <div class="top-right">
+        <span class="clock" id="clock"></span>
+        <button class="icon-btn ghost" id="expand" title="Open in a tab"><svg><use href="#i-expand"/></svg></button>
+      </div>
+    </header>
+
+    <main class="views">
+      <section class="view" data-view="tasks">
+        <h3 class="label">Tasks</h3>
+        <div class="hero">
+          <div class="hero-day" id="hero-day"></div>
+          <div class="hero-sub" id="hero-sub"></div>
+        </div>
+        <form class="add" id="add" autocomplete="off">
+          <input id="add-input" maxlength="140" placeholder="Add a task" aria-label="Add a task" />
+          <button class="add-btn" type="submit" aria-label="Add"><svg><use href="#i-plus"/></svg></button>
+        </form>
+        <ul class="tasks" id="tasks"></ul>
+        <p class="empty" id="empty" hidden>Nothing on the list.</p>
+        <div class="foot-row">
+          <button class="link" id="clear-done" hidden>Clear completed</button>
+        </div>
+      </section>
+
+      <section class="view" data-view="timer">
+        <h3 class="label">Timer</h3>
+        <div class="timer-head">
+          <div class="modes" id="modes">
+            <button data-phase="focus">Focus</button>
+            <button data-phase="short">Short</button>
+            <button data-phase="long">Long</button>
+          </div>
+          <button class="icon-btn ghost tune" id="tune" title="Timer settings"><svg><use href="#i-tune"/></svg></button>
+        </div>
+        <div class="dial">
+          <svg class="ring" viewBox="0 0 200 200">
+            <circle class="ring-track" cx="100" cy="100" r="94"/>
+            <circle class="ring-fill" id="ring-fill" cx="100" cy="100" r="94"/>
+          </svg>
+          <div class="dial-inner">
+            <div class="digits" id="digits">25:00</div>
+            <div class="dial-task" id="dial-task">Focus</div>
+          </div>
+        </div>
+        <div class="dots" id="dots"></div>
+        <div class="controls">
+          <button class="icon-btn" id="reset" title="Reset"><svg><use href="#i-reset"/></svg></button>
+          <button class="play" id="play" title="Start / pause (Space)"><svg><use href="#i-play"/></svg></button>
+          <button class="icon-btn" id="skip" title="Skip"><svg><use href="#i-skip"/></svg></button>
+        </div>
+
+        <div class="sheet" id="sheet" hidden>
+          <div class="sheet-grid">
+            <label><input type="number" min="1" max="180" id="set-focus" /><span>Focus</span></label>
+            <label><input type="number" min="1" max="60" id="set-short" /><span>Short</span></label>
+            <label><input type="number" min="1" max="90" id="set-long" /><span>Long</span></label>
+            <label><input type="number" min="2" max="12" id="set-every" /><span>Rounds</span></label>
+          </div>
+          <label class="toggle"><input type="checkbox" id="set-auto" /><i></i>Auto-start breaks</label>
+          <label class="toggle"><input type="checkbox" id="set-sound" /><i></i>Sound</label>
+          <button class="pill" id="sheet-done">Done</button>
+        </div>
+      </section>
+
+      <section class="view" data-view="notes">
+        <h3 class="label">Notes</h3>
+        <textarea id="notes" class="notes" spellcheck="false" placeholder="Write anything."></textarea>
+        <div class="foot-row">
+          <span class="muted" id="notes-meta"></span>
+          <button class="link" id="notes-copy">Copy</button>
+        </div>
+      </section>
+
+      <section class="view" data-view="stats">
+        <h3 class="label">Stats</h3>
+        <div class="big-stat">
+          <div class="big-num" id="st-focus">0m</div>
+          <div class="muted">focused today</div>
+        </div>
+        <div class="stat-row">
+          <div><b id="st-sessions">0</b><span>Sessions</span></div>
+          <div><b id="st-done">0</b><span>Done</span></div>
+          <div><b id="st-streak">0</b><span>Day streak</span></div>
+        </div>
+        <div class="chart" id="chart"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="shared.js"></script>
+  <script src="scene.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
